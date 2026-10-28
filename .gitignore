@@ -1,0 +1,30 @@
+# 本机私有配置（含本机 FFmpeg 绝对路径）
+local.cmd
+
+# 转换工作目录（视频体积大，不入库）
+input/
+output/
+logs/
+PSP_Music/
+.bak/
+
+# 常见视频/音频文件
+*.mp4
+*.MP4
+*.mkv
+*.MKV
+*.avi
+*.AVI
+*.mov
+*.MOV
+*.m4v
+*.M4V
+*.ts
+*.TS
+*.mp3
+*.MP3
+
+# 系统垃圾文件
+Thumbs.db
+desktop.ini
+.DS_Store
