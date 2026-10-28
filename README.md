@@ -2,6 +2,8 @@
 
 一键把 **MP4 / MKV / AVI / MOV / M4V / TS** 批量转换成 PSP-3000（PSP-3000 / 300x 系列）可直接播放的 `MAQxxxxx.MP4`。
 
+> **本工具基于 FFmpeg 运行**：解封装、解码、缩放、H.264 编码、AAC 编码与 MP4 封装全部由 [FFmpeg](https://ffmpeg.org/) 完成；`PSPConverter.cmd` 只负责批量遍历、编号和拼装参数，本身不含任何编解码代码。
+
 脚本针对 PSP-3000 的 480×272 屏幕与硬件解码能力做了专门调校：H.264 **Constrained Baseline @ Level 3.0** + AAC-LC 立体声 + PSP 专用 MP4 封装，避免常见的“不支持的数据”提示。
 
 ---
@@ -12,6 +14,26 @@
 - **不中断**：单个文件转换失败只提示 `FAILED`，不会终止整个批次
 - **自动找 FFmpeg**：环境变量/脚本目录/系统 PATH 均可
 - **不污染仓库**：`input\`、`output\`、本机私有配置 `local.cmd` 已在 `.gitignore` 中排除
+
+## 基于 FFmpeg 运行
+
+```
+PSPConverter.cmd  ──调用──▶  ffmpeg.exe  ──▶  MAQ00001.MP4
+（批处理壳）                （编解码核心）
+```
+
+- 本仓库**不附带** FFmpeg 二进制，也不修改 FFmpeg，只调用它；
+- 实际执行的核心命令等价于：
+
+```bat
+ffmpeg -y -i "输入视频" -map 0:v:0 -map 0:a:0? ^
+       -vf "scale=480:272,setsar=1" -c:v libopenh264 ^
+       -profile:v constrained_baseline -level 3.0 -pix_fmt yuv420p ^
+       -b:v 384k -r 24000/1001 -c:a aac -b:a 96k -ar 48000 -ac 2 ^
+       -f psp "输出\MAQ00001.MP4"
+```
+
+- 因此画质、速度、兼容性都取决于你使用的 FFmpeg 版本与其包含的编码器（需 `libopenh264` + `aac`）。
 
 ## 输出规格
 

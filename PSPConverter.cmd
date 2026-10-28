@@ -3,7 +3,7 @@ chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 
 rem ============================================================
-rem  PSP 3000 专用视频转换器
+rem  PSP 3000 专用视频转换器（基于 FFmpeg 运行）
 rem  批量把常见视频转换为 PSP-3000 可直接播放的 MAQxxxxx.MP4
 rem  依赖: FFmpeg (需要 libopenh264 与 aac 编码器)
 rem ============================================================
@@ -32,7 +32,7 @@ if not exist "%INPUT%" mkdir "%INPUT%"
 if not exist "%OUTPUT%" mkdir "%OUTPUT%"
 
 echo ==========================================
-echo PSP-3000 Batch Converter
+echo PSP-3000 Batch Converter (based on FFmpeg)
 echo ==========================================
 echo FFmpeg : %FFMPEG%
 echo Input  : %INPUT%
